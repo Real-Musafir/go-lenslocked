@@ -7,7 +7,7 @@ import (
 
 func handlerFunc(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<h1>Welcome to my first page </h1>")
+	fmt.Fprint(w, "<h1>Welcome to my first page in my project </h1>")
 }
 
 func main() {
