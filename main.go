@@ -5,11 +5,6 @@ import (
 	"net/http"
 )
 
-func pageNotFoundHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<h1>Sorry page not found</h1>")
-}
-
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	fmt.Fprint(w, "<h1>Welcome to my first page in my project </h1>")
@@ -27,13 +22,13 @@ func pathHandler(w http.ResponseWriter, r *http.Request) {
 	case "/contact":
 		contactHandler(w, r)
 	default:
-		pageNotFoundHandler(w, r)
+		http.Error(w, "Page not found ", http.StatusNotFound)
 	}
 }
 
 func main() {
 	http.HandleFunc("/", pathHandler)
-	http.HandleFunc("/contact", contactHandler)
+	// http.HandleFunc("/contact", contactHandler)
 	fmt.Println("Starting the server on :3000...")
 	err := http.ListenAndServe(":3000", nil)
 
