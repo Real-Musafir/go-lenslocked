@@ -16,5 +16,12 @@ func (u Users) New(w http.ResponseWriter, r *http.Request) {
 }
 
 func (u Users) Create(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Temporary response")
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprint(w, "Email: ", r.FormValue("email"))
+	fmt.Fprint(w, "Pasword: ", r.FormValue("password"))
 }
