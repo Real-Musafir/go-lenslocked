@@ -31,7 +31,7 @@ func main() {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 
-	fmt.Println("Starting the server on :3000...")
+	fmt.Println("Server Running on: http://localhost:3000")
 	err := http.ListenAndServe(":3000", r)
 
 	if err != nil {
