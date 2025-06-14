@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/real-musafir/lenslocked/controllers"
+	"github.com/real-musafir/lenslocked/models"
 	"github.com/real-musafir/lenslocked/templates"
 	"github.com/real-musafir/lenslocked/views"
 )
@@ -22,7 +23,25 @@ func main() {
 	tpl = views.Must(views.ParseFS(templates.FS, "faq.gohtml", "tailwind.gohtml"))
 	r.Get("/faq", controllers.FAQ(tpl))
 
-	usersC := controllers.Users{}
+	// Setup a database connection
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Data Base Connected Successfully")
+	defer db.Close()
+
+	// Setup our model services
+	userService := models.UserService{
+		DB: db,
+	}
+
+	// Setup our controllers
+	usersC := controllers.Users{
+		UserService: &userService,
+	}
+
 	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "signup.gohtml", "tailwind.gohtml"))
 	r.Get("/signup", usersC.New)
 	r.Post("/signup", usersC.Create)
@@ -32,7 +51,7 @@ func main() {
 	})
 
 	fmt.Println("Server Running on: http://localhost:3000")
-	err := http.ListenAndServe(":3000", r)
+	err = http.ListenAndServe(":3000", r)
 
 	if err != nil {
 		panic(err)
