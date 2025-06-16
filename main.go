@@ -59,15 +59,7 @@ func main() {
 
 	// csrfKey := "b14f5c82df9076b9e3d8c5f1a4e21b8f76cd1b2a879e4350fb764efbda0c29d7"
 	// csrfMw := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
-	// csrfMw := csrf.Protect(
-	// 	[]byte(csrfKey),
-	// 	csrf.Secure(false), // use true in production with HTTPS
-	// 	csrf.SameSite(csrf.SameSiteLaxMode),
-	// 	csrf.TrustedOrigins([]string{
-	// 		"http://localhost:3000",
-	// 		"http://localhost:5173", // if using a separate dev server for frontend
-	// 	}),
-	// )
+
 	// err = http.ListenAndServe(":3000", csrfMw(r))
 
 	err = http.ListenAndServe(":3000", r)
