@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/gorilla/csrf"
 	"github.com/real-musafir/lenslocked/controllers"
 	"github.com/real-musafir/lenslocked/models"
 	"github.com/real-musafir/lenslocked/templates"
@@ -57,13 +56,21 @@ func main() {
 	})
 
 	fmt.Println("Server Running on: http://localhost:3000")
-	csrfKey := "gFvi45R4fy5xNBlnEeZtQbfAVCYEIAUX"
-	csrfMw := csrf.Protect(
-		[]byte(csrfKey),
-		// TODO: Fix this before deploying
-		csrf.Secure(false),
-	)
-	http.ListenAndServe(":3000", csrfMw(r))
+
+	// csrfKey := "b14f5c82df9076b9e3d8c5f1a4e21b8f76cd1b2a879e4350fb764efbda0c29d7"
+	// csrfMw := csrf.Protect([]byte(csrfKey), csrf.Secure(false))
+	// csrfMw := csrf.Protect(
+	// 	[]byte(csrfKey),
+	// 	csrf.Secure(false), // use true in production with HTTPS
+	// 	csrf.SameSite(csrf.SameSiteLaxMode),
+	// 	csrf.TrustedOrigins([]string{
+	// 		"http://localhost:3000",
+	// 		"http://localhost:5173", // if using a separate dev server for frontend
+	// 	}),
+	// )
+	// err = http.ListenAndServe(":3000", csrfMw(r))
+
+	err = http.ListenAndServe(":3000", r)
 
 	if err != nil {
 		panic(err)
