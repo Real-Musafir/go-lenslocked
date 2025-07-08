@@ -33,6 +33,11 @@ func main() {
 	fmt.Println("Data Base Connected Successfully")
 	defer db.Close()
 
+	err = models.Migrate(db, "migrations")
+	if err != nil {
+		panic(err)
+	}
+
 	// Setup our model services
 	userService := models.UserService{
 		DB: db,
